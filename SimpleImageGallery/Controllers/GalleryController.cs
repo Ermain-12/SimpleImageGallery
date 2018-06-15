@@ -84,5 +84,24 @@ namespace SimpleImageGallery.Controllers
 
             return View(model);
         }
+
+        public IActionResult Detail(int id)
+        {
+            // Use the service to retrieve the image by it's ID
+            var image = _imageService.GetById(id);
+
+            // Push that into the view-model
+            var model = new GalleryDetailModel()
+            {
+                Id = image.Id,
+                Title = image.Title,
+                CreatedOn = image.Created,
+                Url = image.Url,
+                // Dump the collection of tags and return them as a list
+                Tags = image.Tags.Select(t => t.Description).ToList()
+            };
+
+            return View(model);
+        }
     }
 }
